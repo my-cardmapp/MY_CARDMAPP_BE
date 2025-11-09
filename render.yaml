@@ -9,6 +9,6 @@ services:
     startCommand: java -Dspring.profiles.active=prod -jar build/libs/*.jar
     envVars:
       - key: JAVA_VERSION
-        value: 21
+        value: 17
       - key: SPRING_PROFILES_ACTIVE
         value: prod
