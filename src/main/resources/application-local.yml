@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update  # 로컬에서는 매번 초기화
+    show-sql: true
+
+logging:
+  level:
+    com.thc.my_cardmapp: TRACE
+    org.springframework.security: DEBUG

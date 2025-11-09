@@ -1,0 +1,62 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+  application:
+    name: My_CARDMAPP
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5434/merchant_db
+    username: postgres
+    password: 5297
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 개발 초기는 create, 운영은 validate 권장
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect  # PostGIS 사용시
+        # dialect: org.hibernate.dialect.PostgreSQLDialect  # 일반 PostgreSQL만 사용시
+        format_sql: true
+        show_sql: false  # 로깅으로 대체
+        jdbc:
+          batch_size: 25
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+    show-sql: false  # 로깅으로 대체
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.thc.my_cardmapp: DEBUG
+    org.hibernate.SQL: DEBUG  # SQL 로깅
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # 파라미터 로깅
+    org.springframework.web: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# API 문서화
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha

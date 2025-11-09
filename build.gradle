@@ -1,0 +1,54 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.thc'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+	// Spring Security (비밀번호 인코더용)
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// 캐시
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// PostgreSQL 드라이버 추가!
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// PostGIS를 위한 JTS
+	implementation 'org.locationtech.jts:jts-core:1.19.0'
+	implementation 'org.hibernate:hibernate-spatial:6.2.13.Final'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// H2 Database for testing
+	testRuntimeOnly 'com.h2database:h2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// mainClass 경로 수정
+springBoot {
+	mainClass = 'com.thc.my_cardmapp.MyCardmappApplication'
+}

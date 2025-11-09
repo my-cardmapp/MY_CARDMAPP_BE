@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # 이미 로컬에 PostgreSQL이 5433 포트에서 실행 중이므로
+  # Docker PostgreSQL은 주석 처리하거나 개발용으로만 사용
+
+  # postgres:
+  #   image: postgis/postgis:16-3.5
+  #   container_name: my-cardmapp-postgres
+  #   environment:
+  #     POSTGRES_DB: merchant_db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: 5297
+  #   ports:
+  #     - "5433:5432"  # 호스트 5433 -> 컨테이너 5432
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: my-cardmapp-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
