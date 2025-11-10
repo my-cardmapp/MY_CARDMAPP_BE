@@ -2,7 +2,7 @@ package com.thc.my_cardmapp.controller;
 
 import com.thc.my_cardmapp.domain.Merchant;
 import com.thc.my_cardmapp.repository.MerchantRepository;
-import com.thc.my_cardmapp.service.NaverGeocodingService;
+import com.thc.my_cardmapp.service.GoogleGeocodingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class GeocodingController {
 
     private final MerchantRepository merchantRepository;
-    private final NaverGeocodingService geocodingService;
+    private final GoogleGeocodingService geocodingService;
 
     @PostMapping("/update-all")
     @Operation(summary = "전체 가맹점 좌표 변환",
@@ -46,7 +46,7 @@ public class GeocodingController {
             }
 
             // Geocoding 수행
-            NaverGeocodingService.GeocodingResult result = geocodingService.geocode(merchant.getAddress());
+            GoogleGeocodingService.GeocodingResult result = geocodingService.geocode(merchant.getAddress());
 
             if (result.isSuccess()) {
                 merchant.setLocation(result.getPoint());
@@ -90,7 +90,7 @@ public class GeocodingController {
         Merchant merchant = merchantRepository.findById(merchantId)
                 .orElseThrow(() -> new IllegalArgumentException("가맹점을 찾을 수 없습니다: " + merchantId));
 
-        NaverGeocodingService.GeocodingResult result = geocodingService.geocode(merchant.getAddress());
+        GoogleGeocodingService.GeocodingResult result = geocodingService.geocode(merchant.getAddress());
 
         Map<String, Object> response = new HashMap<>();
         if (result.isSuccess()) {

@@ -56,11 +56,10 @@ jwt:
   access-token-validity: 3600000  # 1시간 (밀리초)
   refresh-token-validity: 604800000  # 7일 (밀리초)
 
-# 네이버 API 설정
-naver:
-  client:
-    id: ${NAVER_CLIENT_ID:your-naver-client-id}
-    secret: ${NAVER_CLIENT_SECRET:your-naver-client-secret}
+# Google API 설정
+google:
+  api:
+    key: ${GOOGLE_PLACES_API_KEY:your-google-api-key}
 
 logging:
   level:
