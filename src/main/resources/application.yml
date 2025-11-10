@@ -48,7 +48,7 @@ spring:
       port: 6379
 
 server:
-  port: 8080
+  port: ${PORT:8080}  # Render는 PORT 환경변수 사용, 로컬은 8080
 
 # JWT 설정
 jwt:
