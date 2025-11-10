@@ -44,6 +44,14 @@ public class MerchantService {
     private final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
     /**
+     * 모든 가맹점 조회 (페이지네이션)
+     */
+    public Page<Merchant> getAllMerchants(Pageable pageable) {
+        log.debug("모든 가맹점 조회 - 페이지: {}, 크기: {}", pageable.getPageNumber(), pageable.getPageSize());
+        return merchantRepository.findAll(pageable);
+    }
+
+    /**
      * 위치 기반 가맹점 검색
      */
     public List<Merchant> findNearbyMerchants(double lat, double lng, double radius) {

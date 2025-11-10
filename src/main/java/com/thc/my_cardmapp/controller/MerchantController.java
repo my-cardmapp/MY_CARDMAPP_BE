@@ -30,6 +30,23 @@ public class MerchantController {
 
         private final MerchantService merchantService;
 
+        @Operation(summary = "모든 가맹점 조회", description = "모든 가맹점 목록을 페이지네이션하여 조회합니다")
+        @GetMapping // GET - 모든 가맹점 조회
+        public ResponseEntity<Page<MerchantDto>> getAllMerchants(
+                        @Parameter(description = "페이지 번호 (0부터 시작)") @RequestParam(defaultValue = "0") int page,
+                        @Parameter(description = "페이지 크기") @RequestParam(defaultValue = "20") int size) {
+
+                log.info("모든 가맹점 조회 - 페이지: {}, 크기: {}", page, size);
+
+                PageRequest pageRequest = PageRequest.of(page, size);
+                Page<Merchant> merchants = merchantService.getAllMerchants(pageRequest);
+
+                // Page<Entity>를 Page<DTO>로 변환
+                Page<MerchantDto> merchantDtos = merchants.map(this::convertToDto);
+
+                return ResponseEntity.ok(merchantDtos);
+        }
+
         @Operation(summary = "위치 기반 가맹점 검색", description = "현재 위치 주변의 가맹점을 검색합니다")
         @GetMapping("/nearby") // GET - 근처 가맹점 조회
         public ResponseEntity<List<MerchantDto>> findNearbyMerchants(
