@@ -28,6 +28,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update  # 개발 초기는 create, 운영은 validate 권장
+    defer-datasource-initialization: true  # Hibernate 테이블 생성 후 data.sql 실행
     properties:
       hibernate:
         dialect: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect  # PostGIS 사용시
