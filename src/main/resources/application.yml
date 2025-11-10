@@ -19,6 +19,12 @@ spring:
       minimum-idle: 5
       connection-timeout: 30000
 
+  sql:
+    init:
+      mode: always  # data.sql 항상 실행
+      data-locations: classpath:data.sql
+      encoding: UTF-8
+
   jpa:
     hibernate:
       ddl-auto: update  # 개발 초기는 create, 운영은 validate 권장
