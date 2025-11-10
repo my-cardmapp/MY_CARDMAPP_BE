@@ -82,23 +82,28 @@ public class GoogleGeocodingService {
     }
 
     @Data
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     private static class GoogleGeocodingResponse {
         private String status;
         private List<GoogleResult> results;
+        private String errorMessage;  // error_message 필드 추가
     }
 
     @Data
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     private static class GoogleResult {
         private String formatted_address;
         private Geometry geometry;
     }
 
     @Data
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     private static class Geometry {
         private Location location;
     }
 
     @Data
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     private static class Location {
         private double lat;
         private double lng;
