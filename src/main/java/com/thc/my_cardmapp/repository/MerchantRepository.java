@@ -73,4 +73,7 @@ public interface MerchantRepository extends JpaRepository<Merchant, Long> {
             "JOIN m.merchantCards mc " +
             "WHERE mc.card.id = :cardId")
     Long countMerchantsByCardId(@Param("cardId") Long cardId);
+
+    // 8. 좌표가 있는 가맹점 개수
+    long countByLocationIsNotNull();
 }
