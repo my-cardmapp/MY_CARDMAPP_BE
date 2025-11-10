@@ -63,4 +63,10 @@ public class RefreshToken {
     public void extendExpiry(long days) {
         this.expiryDate = LocalDateTime.now().plusDays(days);
     }
+
+    public void updateToken(String newToken, LocalDateTime newExpiryDate) {
+        this.token = newToken;
+        this.expiryDate = newExpiryDate;
+        this.lastUsedAt = LocalDateTime.now();
+    }
 }

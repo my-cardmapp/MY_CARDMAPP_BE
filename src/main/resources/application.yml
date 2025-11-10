@@ -50,6 +50,12 @@ spring:
 server:
   port: 8080
 
+# JWT 설정
+jwt:
+  secret: ${JWT_SECRET:your-secret-key-change-this-in-production-at-least-256-bits-long}
+  access-token-validity: 3600000  # 1시간 (밀리초)
+  refresh-token-validity: 604800000  # 7일 (밀리초)
+
 logging:
   level:
     com.thc.my_cardmapp: DEBUG

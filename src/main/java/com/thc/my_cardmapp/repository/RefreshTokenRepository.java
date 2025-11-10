@@ -24,6 +24,12 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     Optional<RefreshToken> findByTokenAndExpiryDateAfter(@Param("token") String token,
                                                           @Param("now") LocalDateTime now);
 
+    // 사용자의 최신 토큰 1개 조회
+    @Query("SELECT rt FROM RefreshToken rt " +
+           "WHERE rt.user.id = :userId " +
+           "ORDER BY rt.createdAt DESC")
+    Optional<RefreshToken> findByUserId(@Param("userId") Long userId);
+
     // 사용자의 모든 토큰 조회 (최신순)
     @Query("SELECT rt FROM RefreshToken rt " +
            "WHERE rt.user.id = :userId " +
@@ -47,6 +53,11 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     @Modifying
     @Query("DELETE FROM RefreshToken rt WHERE rt.expiryDate < :now")
     void deleteByExpiryDateBefore(@Param("now") LocalDateTime now);
+
+    // Alias for deleteByExpiryDateBefore
+    @Modifying
+    @Query("DELETE FROM RefreshToken rt WHERE rt.expiryDate < :now")
+    void deleteByExpiresAtBefore(@Param("now") LocalDateTime now);
 
     // 토큰 존재 여부 확인
     boolean existsByToken(String token);
