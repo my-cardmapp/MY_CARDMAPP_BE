@@ -10,11 +10,12 @@ import com.thc.my_cardmapp.repository.MerchantCardRepository;
 import com.thc.my_cardmapp.repository.MerchantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class CsvImportService {
     private final MerchantCardRepository merchantCardRepository;
     private final CategoryRepository categoryRepository;
     private final CardRepository cardRepository;
+    private final ResourceLoader resourceLoader;
 
     private static final int BATCH_SIZE = 1000;
     private static final String CARD_NAME = "지역사랑상품권";
@@ -99,8 +101,11 @@ public class CsvImportService {
         int successCount = 0;
         int skipCount = 0;
 
+        // Resource 로드 (classpath: 또는 file: 지원)
+        Resource resource = resourceLoader.getResource(csvFilePath);
+
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(csvFilePath), Charset.forName("EUC-KR")))) {
+                new InputStreamReader(resource.getInputStream(), Charset.forName("EUC-KR")))) {
 
             String line;
             boolean isHeader = true;
