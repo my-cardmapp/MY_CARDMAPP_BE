@@ -61,6 +61,12 @@ google:
   api:
     key: ${GOOGLE_PLACES_API_KEY:your-google-api-key}
 
+# Naver API 설정
+naver:
+  client:
+    id: ${NAVER_CLIENT_ID:your-naver-client-id}
+    secret: ${NAVER_CLIENT_SECRET:your-naver-client-secret}
+
 logging:
   level:
     com.thc.my_cardmapp: DEBUG
