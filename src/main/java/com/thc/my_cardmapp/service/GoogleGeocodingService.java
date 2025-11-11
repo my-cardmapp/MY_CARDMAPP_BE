@@ -30,13 +30,55 @@ public class GoogleGeocodingService {
     private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
     /**
+     * 주소 정제 메서드
+     * 상세 주소 정보(동/호수, 층수, 괄호 내용)를 제거하여 Google Geocoding이 인식 가능한 형태로 변환
+     */
+    private String cleanAddress(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            return address;
+        }
+
+        String cleaned = address;
+
+        // 1. 동호수 제거 (예: ", 102동 204호" -> "")
+        cleaned = cleaned.replaceAll(",\\s*\\d+동\\s*\\d+호", "");
+
+        // 2. 층수 제거 (예: ", 2층 202호" -> "")
+        cleaned = cleaned.replaceAll(",\\s*\\d+층\\s*\\d+호", "");
+
+        // 3. 단독 동 제거 (예: ", 102동" -> "")
+        cleaned = cleaned.replaceAll(",\\s*\\d+동", "");
+
+        // 4. 단독 호수 제거 (예: ", 202호" -> "")
+        cleaned = cleaned.replaceAll(",\\s*\\d+호", "");
+
+        // 5. 층수만 제거 (예: ", 2층" -> "")
+        cleaned = cleaned.replaceAll(",\\s*\\d+층", "");
+
+        // 6. 괄호 안 내용 제거 (예: " (구산동,갈현현대아파트)" -> "")
+        cleaned = cleaned.replaceAll("\\s*\\([^)]*\\)", "");
+
+        // 7. 다중 공백을 단일 공백으로
+        cleaned = cleaned.replaceAll("\\s+", " ");
+
+        // 8. 앞뒤 공백 및 쉼표 제거
+        cleaned = cleaned.trim().replaceAll(",$", "");
+
+        return cleaned;
+    }
+
+    /**
      * 주소를 위도/경도로 변환
      */
     public GeocodingResult geocode(String address) {
         try {
+            // 주소 정제
+            String cleanedAddress = cleanAddress(address);
+            log.debug("주소 정제: [{}] -> [{}]", address, cleanedAddress);
+
             // URL 생성
             String url = UriComponentsBuilder.fromUriString(GEOCODING_URL)
-                    .queryParam("address", address)
+                    .queryParam("address", cleanedAddress)
                     .queryParam("key", apiKey)
                     .toUriString();
 
