@@ -74,7 +74,7 @@ public class GoogleGeocodingService {
         try {
             // 주소 정제
             String cleanedAddress = cleanAddress(address);
-            log.debug("주소 정제: [{}] -> [{}]", address, cleanedAddress);
+            log.info("주소 정제: [{}] -> [{}]", address, cleanedAddress);
 
             // URL 생성
             String url = UriComponentsBuilder.fromUriString(GEOCODING_URL)
